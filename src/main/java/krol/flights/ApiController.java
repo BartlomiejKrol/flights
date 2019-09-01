@@ -1,5 +1,6 @@
 package krol.flights;
 
+import krol.flights.routes.RoutesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,9 @@ public class ApiController {
             @RequestParam String arrival,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime departureDateTime,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime arrivalDateTime
-            ) {
+    ) {
 
-        return ResponseEntity.ok(service.getPossibleConnections(departure,arrival));
+        return ResponseEntity.ok(service.getPossibleConnections(departure, arrival));
     }
 
 }
