@@ -1,13 +1,17 @@
 package krol.flights;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
-public class Connection {
+@EqualsAndHashCode
+@ToString
+public class FlightConnection {
 
-    public Connection(String departure, String arrival) {
+    public FlightConnection(String departure, String arrival) {
         this.departure = departure;
         this.transfer = null;
         this.arrival = arrival;
