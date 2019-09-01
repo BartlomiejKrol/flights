@@ -1,6 +1,6 @@
 package krol.flights.routes;
 
-import krol.flights.FlightConnection;
+import krol.flights.inteconnections.ConnectionAirports;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,28 +18,28 @@ public class RoutesService {
         this.routesClient = routesClient;
     }
 
-    public Set<FlightConnection> getPossibleConnections(String departureAirport, String arrivalAirport) {
+    public Set<ConnectionAirports> getPossibleConnections(String departureAirport, String arrivalAirport) {
         Set<Route> allUsableRoutes = routesClient.fetchRoutes()
                 .stream()
                 .filter(Route::couldBeUsed)
                 .collect(Collectors.toSet());
-        Optional<FlightConnection> directConnection = getDirectConnection(departureAirport, arrivalAirport, allUsableRoutes);
-        Set<FlightConnection> flightConnections = getIndirectConnections(departureAirport, arrivalAirport, allUsableRoutes);
-        directConnection.ifPresent(flightConnections::add);
+        Optional<ConnectionAirports> directConnection = getDirectConnection(departureAirport, arrivalAirport, allUsableRoutes);
+        Set<ConnectionAirports> connectionAirports = getIndirectConnections(departureAirport, arrivalAirport, allUsableRoutes);
+        directConnection.ifPresent(connectionAirports::add);
 
-        return flightConnections;
+        return connectionAirports;
     }
 
-    private Optional<FlightConnection> getDirectConnection(String departureAirport, String arrivalAirport, Set<Route> routes) {
+    private Optional<ConnectionAirports> getDirectConnection(String departureAirport, String arrivalAirport, Set<Route> routes) {
         if (routes.stream().anyMatch(route -> route.isFrom(departureAirport) && route.isTo(arrivalAirport))) {
-            return Optional.of(new FlightConnection(departureAirport, arrivalAirport));
+            return Optional.of(new ConnectionAirports(departureAirport, arrivalAirport));
         } else {
             return Optional.empty();
         }
     }
 
 
-    private Set<FlightConnection> getIndirectConnections(String departure, String arrival, Set<Route> routes) {
+    private Set<ConnectionAirports> getIndirectConnections(String departure, String arrival, Set<Route> routes) {
         final Set<Route> routesToArrival = routes.stream()
                 .filter(route -> route.isTo(arrival))
                 .collect(Collectors.toSet());
@@ -51,7 +51,7 @@ public class RoutesService {
                                 .anyMatch(routeTo -> routeTo.isFrom(routeFrom.getAirportTo()))
                 )
                 .map(route ->
-                        new FlightConnection(route.getAirportFrom(), route.getAirportTo(), arrival)
+                        new ConnectionAirports(route.getAirportFrom(), route.getAirportTo(), arrival)
                 )
                 .collect(Collectors.toSet());
     }

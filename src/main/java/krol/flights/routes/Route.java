@@ -2,10 +2,12 @@ package krol.flights.routes;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
 @AllArgsConstructor
+@Data
+@NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Route {
     private static final String ALLOWED_OPERATOR = "RYANAIR";

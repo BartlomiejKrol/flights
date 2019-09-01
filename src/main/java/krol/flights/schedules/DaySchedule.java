@@ -1,16 +1,17 @@
 package krol.flights.schedules;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.DayOfWeek;
 import java.util.List;
 
+@NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@EqualsAndHashCode
+@Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DaySchedule {
-    private DayOfWeek day;
+    private int day;
     private List<FlightSchedule> flights;
 }

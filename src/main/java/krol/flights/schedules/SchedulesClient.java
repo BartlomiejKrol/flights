@@ -1,16 +1,13 @@
 package krol.flights.schedules;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Month;
-import java.time.Year;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -28,18 +25,18 @@ public class SchedulesClient {
         this.restTemplate = restTemplate;
     }
 
-    public List<MonthSchedule> fetchSchedules(String departure, String arrival, Year year, Month month) {
+    public MonthSchedule fetchSchedules(String departure, String arrival, int year, Month month) {
         Map<String, String> params = new HashMap<>();
         params.put(DEPARTURE, departure);
         params.put(ARRIVAL, arrival);
-        params.put(YEAR, year.toString());
+        params.put(YEAR, String.valueOf(year));
         params.put(MONTH, String.valueOf(month.getValue()));
 
-        ResponseEntity<List<MonthSchedule>> response = restTemplate.exchange(
+        ResponseEntity<MonthSchedule> response = restTemplate.exchange(
                 SCHEDULES_URL,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<MonthSchedule>>() {},
+                MonthSchedule.class,
                 params
         );
 

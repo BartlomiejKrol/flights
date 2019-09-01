@@ -1,6 +1,6 @@
 package krol.flights.routes;
 
-import krol.flights.FlightConnection;
+import krol.flights.inteconnections.ConnectionAirports;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,11 +41,11 @@ public class RoutesServiceTest {
         Mockito.when(routesClient.fetchRoutes()).thenReturn(routeListDummy);
         String departureAirport = "AAL";
         String arrivalAirport = "DUB";
-        Set<FlightConnection> expectedResult = new HashSet<>();
-        expectedResult.add(new FlightConnection("AAL", "GDN", "DUB"));
+        Set<ConnectionAirports> expectedResult = new HashSet<>();
+        expectedResult.add(new ConnectionAirports("AAL", "GDN", "DUB"));
 
         // when
-        Set<FlightConnection> result = testSubject.getPossibleConnections(departureAirport, arrivalAirport);
+        Set<ConnectionAirports> result = testSubject.getPossibleConnections(departureAirport, arrivalAirport);
 
         //then
         Assert.assertEquals(expectedResult, result);

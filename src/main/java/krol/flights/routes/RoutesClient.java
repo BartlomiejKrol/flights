@@ -25,7 +25,8 @@ public class RoutesClient {
                 ROUTES_URL,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<Route>>() {}
+                new ParameterizedTypeReference<List<Route>>() {
+                }
         );
         return response.getBody();
     }
