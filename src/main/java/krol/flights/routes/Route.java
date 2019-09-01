@@ -1,4 +1,4 @@
-package krol.flights;
+package krol.flights.routes;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;

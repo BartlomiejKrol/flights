@@ -1,4 +1,4 @@
-package krol.flights;
+package krol.flights.routes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
