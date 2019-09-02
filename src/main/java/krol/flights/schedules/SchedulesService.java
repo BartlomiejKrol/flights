@@ -26,7 +26,6 @@ public class SchedulesService {
     }
 
     public Set<Leg> getLegsSet(final String departure, final String arrival, LocalDateTime departureDateTime, LocalDateTime arrivalDateTime) {
-        final int stops = 0;
         Set<YearMonthSchedule> schedule = getSchedule(departure, arrival, departureDateTime, arrivalDateTime);
         return schedule.stream()
                 .flatMap(yearMonthSchedule -> yearMonthSchedule.getDays().stream()
