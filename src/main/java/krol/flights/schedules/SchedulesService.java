@@ -33,7 +33,6 @@ public class SchedulesService {
                         .map(daySchedule -> new Pair<>(LocalDate.of(yearMonthSchedule.getYearMonth().getYear(),
                                 yearMonthSchedule.getYearMonth().getMonth(),
                                 daySchedule.getDay()), daySchedule.getFlights())))
-                .filter(dayPair -> departureDateTime.getDayOfYear() == dayPair.getKey().getDayOfYear())
                 .flatMap(dayPair -> dayPair.getValue().stream()
                         .map(flight -> new Pair<>(dayPair.getKey(), flight))
                 )
