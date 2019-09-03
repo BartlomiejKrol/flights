@@ -25,6 +25,9 @@ public class ApiController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departureDateTime,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime arrivalDateTime
     ) {
+        if(departureDateTime.isBefore(LocalDateTime.now())) {
+            return ResponseEntity.badRequest().body("Departure time should be later than now");
+        }
         List<InterconnectionFlights> response = interconnectionsService.findInterconnections(departure, arrival, departureDateTime, arrivalDateTime);
         return ResponseEntity.ok(response);
     }
