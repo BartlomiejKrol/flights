@@ -5,9 +5,12 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class RoutesClient {
@@ -21,14 +24,18 @@ public class RoutesClient {
     }
 
     public List<Route> fetchRoutes() {
-        ResponseEntity<List<Route>> response = restTemplate.exchange(
+        ResponseEntity<List<Route>> response;
+        try {
+         response = restTemplate.exchange(
                 ROUTES_URL,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<Route>>() {
                 }
-        );
-        return response.getBody();
+        ); } catch (RestClientException e) {
+            return Collections.emptyList();
+        }
+        return Optional.ofNullable(response).map(ResponseEntity::getBody).orElse(Collections.emptyList());
     }
 
 }

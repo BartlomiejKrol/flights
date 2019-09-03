@@ -35,7 +35,7 @@ public class InterconnectionsService {
                                                              final LocalDateTime arrivalDateTime
     ) {
         Set<ConnectionAirports> connectionAirports = routesService.getPossibleConnections(from, to);
-        return connectionAirports.stream()
+        return connectionAirports.parallelStream()
                 .flatMap(airports -> airportsToFlights(airports, departureDateTime, arrivalDateTime).stream())
                 .collect(Collectors.toList());
     }

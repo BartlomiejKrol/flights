@@ -14,14 +14,4 @@ import java.time.LocalTime;
 public class FlightSchedule {
     private LocalTime departureTime;
     private LocalTime arrivalTime;
-
-    public boolean departureNotBefore(LocalTime departureTime) {
-        return getDepartureTime().isAfter(departureTime) ||
-                getDepartureTime().equals(departureTime);
-    }
-
-    public boolean arriveNotAfter(LocalTime arrivalTime) {
-        return getArrivalTime().isBefore(arrivalTime) ||
-                getArrivalTime().equals(arrivalTime);
-    }
 }

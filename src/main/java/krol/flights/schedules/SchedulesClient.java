@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Month;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class SchedulesClient {
@@ -25,22 +27,27 @@ public class SchedulesClient {
         this.restTemplate = restTemplate;
     }
 
-    public MonthSchedule fetchSchedules(String departure, String arrival, int year, Month month) {
+    public Optional<MonthSchedule> fetchSchedules(String departure, String arrival, int year, Month month) {
         Map<String, String> params = new HashMap<>();
         params.put(DEPARTURE, departure);
         params.put(ARRIVAL, arrival);
         params.put(YEAR, String.valueOf(year));
         params.put(MONTH, String.valueOf(month.getValue()));
 
-        ResponseEntity<MonthSchedule> response = restTemplate.exchange(
-                SCHEDULES_URL,
-                HttpMethod.GET,
-                null,
-                MonthSchedule.class,
-                params
-        );
+        ResponseEntity<MonthSchedule> response;
+        try {
+            response = restTemplate.exchange(
+                    SCHEDULES_URL,
+                    HttpMethod.GET,
+                    null,
+                    MonthSchedule.class,
+                    params
+            );
+        } catch (RestClientException e) {
+            return Optional.empty();
+        }
 
-        return response.getBody();
+        return Optional.ofNullable(response).map(ResponseEntity::getBody);
     }
 
 }
